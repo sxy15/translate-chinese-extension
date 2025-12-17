@@ -41,3 +41,7 @@ export function getAudioUrl(text: string): string {
     }
     return `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(_text)}&type=2`
 }
+
+export function sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}

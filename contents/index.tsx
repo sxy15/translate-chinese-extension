@@ -6,7 +6,7 @@ import type {
 } from "plasmo"
 import React, { useCallback, useEffect, useState } from "react"
 
-import { getAudioUrl, getTranslation } from "./utils"
+import { getAudioUrl, getTranslation, sleep } from "./utils"
 
 export const config: PlasmoCSConfig = {
   matches: ["<all_urls>"],
@@ -49,6 +49,7 @@ const TranslationCard = () => {
     // 监听存储变化
     const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
       if (changes.translationEnabled) {
+        console.log('translationEnabled changed:', changes.translationEnabled.newValue)
         setIsTranslationEnabled(changes.translationEnabled.newValue ?? true)
       }
     }
@@ -68,6 +69,8 @@ const TranslationCard = () => {
       setState(prev => ({ ...prev, show: false }))
       return
     }
+
+    await sleep(100) // 防止再次点击原选中文本时，卡片位置变化
 
     const card = document.getElementById("ec-translation-card")
     const selection = window.getSelection()
