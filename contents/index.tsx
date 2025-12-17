@@ -34,11 +34,41 @@ const TranslationCard = () => {
     isLoading: false
   })
 
+  // 跟踪划词翻译是否启用
+  const [isTranslationEnabled, setIsTranslationEnabled] = useState(true)
+
   // 跟踪当前文本的发音是否可用
   const [isPronounceAvailable, setIsPronounceAvailable] = useState(false)
 
+  // 从Chrome存储读取翻译功能开关状态
+  useEffect(() => {
+    chrome.storage.sync.get(['translationEnabled'], (result) => {
+      setIsTranslationEnabled(result.translationEnabled ?? true)
+    })
+
+    // 监听存储变化
+    const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
+      if (changes.translationEnabled) {
+        setIsTranslationEnabled(changes.translationEnabled.newValue ?? true)
+      }
+    }
+
+    chrome.storage.onChanged.addListener(handleStorageChange)
+
+    return () => {
+      chrome.storage.onChanged.removeListener(handleStorageChange)
+    }
+  }, [isTranslationEnabled])
+
   // 处理鼠标释放事件 - 统一处理划词和点击关闭逻辑
   const handleMouseUp = useCallback(async (event: MouseEvent) => {
+    // 如果翻译功能已禁用，不处理划词
+    if (!isTranslationEnabled) {
+      // 如果有显示的卡片，关闭它
+      setState(prev => ({ ...prev, show: false }))
+      return
+    }
+
     const card = document.getElementById("ec-translation-card")
     const selection = window.getSelection()
     const text = selection?.toString().trim() || ""
@@ -85,7 +115,7 @@ const TranslationCard = () => {
 
     // 情况2: 没有选中文本 - 关闭卡片
     setState((prev) => ({ ...prev, show: false }))
-  }, [])
+  }, [isTranslationEnabled])
 
   // 添加事件监听器 - 只需要监听mouseup事件
   useEffect(() => {
