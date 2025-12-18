@@ -45,3 +45,14 @@ export function getAudioUrl(text: string): string {
 export function sleep(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
+
+export async function checkAudioAvailable(url: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const audio = new Audio()
+    audio.preload = 'metadata'
+    audio.onloadedmetadata = () => resolve(audio.duration > 0)
+    audio.onerror = () => resolve(false)
+
+    audio.src = url
+  })
+}
