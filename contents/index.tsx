@@ -114,7 +114,7 @@ const TranslationCard = () => {
         })
         setPosition({ 
           left: clientX, 
-          top: clientY + 10 
+          top: clientY + 20 
         })
 
         const translation = await getTranslation(text).catch((e) => {})
