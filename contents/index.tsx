@@ -82,7 +82,7 @@ const TranslationCard = () => {
         return
       }
 
-      await sleep(100) // 防止再次点击选中文本导致卡片位置变动
+      await sleep(0) // 防止再次点击选中文本导致卡片位置变动
 
       const selection = window.getSelection()
       const text = selection?.toString().trim() || ""
@@ -137,7 +137,7 @@ const TranslationCard = () => {
   }, [])
 
   const handleClose = useCallback(async () => {
-    await sleep(100)
+    await sleep(0)
     setState({ ...state, show: false })
   }, [state])
 
