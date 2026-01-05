@@ -1,4 +1,15 @@
 export async function getTranslation(text: string): Promise<string> {
+    // 从存储中获取语言设置
+    const languageSettings = await new Promise<{ sourceLanguage?: string; targetLanguage?: string }>((resolve) => {
+      chrome.storage.sync.get(['sourceLanguage', 'targetLanguage'], (result) => {
+        resolve(result);
+      });
+    });
+    
+    // 使用默认值或存储中的设置
+    const sourceLang = languageSettings.sourceLanguage || 'en';
+    const targetLang = languageSettings.targetLanguage || 'zh';
+    
     const response = await fetch("https://transmart.qq.com/api/imt", {
       method: "POST",
       headers: {
@@ -14,12 +25,12 @@ export async function getTranslation(text: string): Promise<string> {
             "tencent_transmart_crx_TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaX"
         },
         source: {
-          lang: "en",
+          lang: sourceLang,
           text_block: text,
           orig_text_block: text
         },
         target: {
-          lang: "zh"
+          lang: targetLang
         }
       })
     })
