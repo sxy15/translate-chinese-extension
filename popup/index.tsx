@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
+import pkg from '../package.json';
 
 // 支持的语言列表
 const languages = [
@@ -51,6 +52,17 @@ const Popup = () => {
     chrome.storage.sync.set({ translationEnabled: newEnabledState });
   };
 
+  // 切换源语言和目标语言
+  const handleSwapLanguages = () => {
+    const temp = sourceLanguage;
+    setSourceLanguage(targetLanguage);
+    setTargetLanguage(temp);
+    chrome.storage.sync.set({ 
+      sourceLanguage: targetLanguage,
+      targetLanguage: temp
+    });
+  };
+
   return (
     <div className="popup-container">
       <h1 className="popup-title">翻译设置</h1>
@@ -84,6 +96,16 @@ const Popup = () => {
       </div>
 
       <div className="settings-section">
+        <button 
+          className="swap-button" 
+          onClick={handleSwapLanguages}
+          title="交换源语言和目标语言"
+        >
+          ↔ 交换语言
+        </button>
+      </div>
+
+      <div className="settings-section">
         <label className="settings-label">
           目标语言：
           <select 
@@ -101,7 +123,7 @@ const Popup = () => {
       </div>
 
       <div className="settings-footer">
-        <p>划词翻译插件 v1.1.0</p>
+        <p>划词翻译插件 v{pkg.version}</p>
       </div>
     </div>
   );
