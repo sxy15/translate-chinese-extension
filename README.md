@@ -1,33 +1,55 @@
-This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
+# 划词翻译浏览器插件
 
-## Getting Started
+这是一个功能强大的谷歌浏览器划词翻译插件，支持划词时悬浮卡片显示翻译结果，并提供发音功能。
 
-First, run the development server:
+## ✨ 功能特性
 
-```bash
-pnpm dev
-# or
-npm run dev
-```
+- 🎯 **划词翻译**：选中任意文本，自动弹出翻译卡片
+- 🔊 **发音功能**：支持英文单词发音，点击即可播放
+- 🌐 **多语言支持**：支持4种语言之间的互相翻译
+  - 英语、中文、日语、韩语
+- ⚙️ **灵活配置**：通过popup界面自定义源语言和目标语言
+- 🔄 **语言交换**：一键交换源语言和目标语言设置
+- 🖱️ **右键菜单**：通过右键菜单快速启用/禁用划词翻译
+- 🎨 **拖拽功能**：支持拖拽翻译卡片到任意位置
 
-Open your browser and load the appropriate development build. For example, if you are developing for the chrome browser, using manifest v3, use: `build/chrome-mv3-dev`.
+## 📦 安装方法
 
-You can start editing the popup by modifying `popup.tsx`. It should auto-update as you make changes. To add an options page, simply add a `options.tsx` file to the root of the project, with a react component default exported. Likewise to add a content page, add a `content.ts` file to the root of the project, importing some module and do some logic, then reload the extension on your browser.
+### 从源码构建
 
-For further guidance, [visit our Documentation](https://docs.plasmo.com/)
+1. 克隆项目到本地
+   ```bash
+   git clone https://github.com/sxy15/translate-chinese-extension.git
+   cd translate-chinese-extension
+   ```
 
-## Making production build
+2. 安装依赖
+   ```bash
+   pnpm install
+   ```
 
-Run the following:
+3. 构建项目
+   ```bash
+   pnpm build
+   ```
 
-```bash
-pnpm build
-# or
-npm run build
-```
+4. 加载扩展
+   - 打开Chrome浏览器，访问 `chrome://extensions/
+   - 开启"开发者模式"
+   - 点击"加载已解压的扩展程序"
+   - 选择项目根目录下的 `build/chrome-mv3-prod` 文件夹
 
-This should create a production bundle for your extension, ready to be zipped and published to the stores.
+### 从release页面安装
 
-## Submit to the webstores
+1. 访问项目的release页面
+   https://github.com/sxy15/translate-chinese-extension/releases
 
-The easiest way to deploy your Plasmo extension is to use the built-in [bpp](https://bpp.browser.market) GitHub action. Prior to using this action however, make sure to build your extension and upload the first version to the store to establish the basic credentials. Then, simply follow [this setup instruction](https://docs.plasmo.com/framework/workflows/submit) and you should be on your way for automated submission!
+2. 下载最新版本的zip文件
+
+3. 解压zip文件到任意目录
+
+4. 加载扩展
+   - 打开Chrome浏览器，访问 `chrome://extensions/
+   - 开启"开发者模式"
+   - 点击"加载已解压的扩展程序"
+   - 选择解压后的文件夹
