@@ -38,3 +38,14 @@ chrome.contextMenus.onClicked.addListener((info) => {
     })
   }
 })
+
+// 监听存储变化，当用户在popup中修改设置时更新右键菜单
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName === "sync" && changes.translationEnabled) {
+    const isEnabled = changes.translationEnabled.newValue
+    // 更新菜单项标题
+    chrome.contextMenus.update("toggle-translation", {
+      title: isEnabled ? "启用/关闭划词翻译" : "关闭/启用划词翻译",
+    })
+  }
+})
