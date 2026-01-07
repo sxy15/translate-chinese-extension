@@ -17,8 +17,20 @@ const initContextMenu = () => {
   })
 }
 
+// 扩展安装时自动打开欢迎页面
+const openWelcomePage = (e) => {
+  if(e.reason === 'install') {
+    chrome.runtime.openOptionsPage()
+  }
+}
+
+const installHandle = (e) => {
+  initContextMenu()
+  openWelcomePage(e)
+}
+
 // 扩展安装时初始化菜单
-chrome.runtime.onInstalled.addListener(initContextMenu)
+chrome.runtime.onInstalled.addListener(installHandle)
 
 // 浏览器启动时初始化菜单
 chrome.runtime.onStartup.addListener(initContextMenu)
